@@ -130,6 +130,15 @@ gui.add(options,'speed',0,1);
 
 let step = 0;
 
+const mousePosition  = new THREE.Vector2();
+
+window.addEventListener('mousemove', function(e){
+    mousePosition.x = (e.clientX/window.innerWidth)*2-1;
+    mousePosition.y = -(e.clientY/window.innerHeight)*2+1;
+});
+
+const rayCaster = new THREE.Raycaster();
+
 box.rotation.x=7;
 
 function animate()
@@ -143,6 +152,10 @@ function animate()
     //spotLight.penumbra=options.penumbra;
     //spotLight.intensity=options.intensity;
     //sLightHelper.update();
+
+    rayCaster.setFromCamera(mousePosition, camera);
+    const intersects = rayCaster.intersectObjects(scene.children);
+    console.log(intersects);
 
     renderer.render( scene, camera );
 }
